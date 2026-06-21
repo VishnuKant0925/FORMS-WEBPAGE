@@ -1,8 +1,8 @@
-# 🛰️ NRSC Smart Leave Management System (SLMS)
+# 🛰️  Smart Form Management System (SFMS)
 
 <div align="center">
 
-![ISRO](https://img.shields.io/badge/Organisation-ISRO%20%7C%20NRSC-blue?style=for-the-badge)
+
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Internal%20Use-orange?style=for-the-badge)
 ![Node](https://img.shields.io/badge/Node.js-%E2%89%A5%2018.x-339933?style=for-the-badge&logo=node.js&logoColor=white)
@@ -10,7 +10,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=for-the-badge&logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 
-**A production-ready, bilingual, enterprise-grade Leave & Form Management System for ISRO – National Remote Sensing Centre (NRSC) and Regional Remote Sensing Centre – West (RRSC-W).**
+**A production-ready, bilingual, enterprise-grade Leave & Form Management System **
 
 [Features](#-features) · [Architecture](#-system-architecture) · [Quick Start](#-quick-start-clone--run) · [API Reference](#-api-reference) · [Tech Stack](#️-tech-stack)
 
@@ -44,7 +44,7 @@
 
 ## 🔍 Overview
 
-NRSC SLMS digitises the paper-based leave and biodata forms used across NRSC and RRSC-W campuses. Employees fill forms in their preferred Indian language (with live Indic transliteration support for 10 languages), HR/Admin review and approve submissions through a role-based workflow, and the system generates print-ready PDFs with embedded Google Noto Indic fonts.
+ SFMS digitises the paper-based leave and biodata forms used across government organisations. Employees fill forms in their preferred Indian language (with live Indic transliteration support for 10 languages), HR/Admin review and approve submissions through a role-based workflow, and the system generates print-ready PDFs with embedded Google Noto Indic fonts.
 
 ### Key Highlights
 
@@ -1074,14 +1074,10 @@ sudo apt-get install build-essential python3
 
 ## 📜 License
 
-**Internal Use Only — ISRO / NRSC / RRSC-W**
+**Vishnu Kant **
 
-This system is developed for internal government use within ISRO's National Remote Sensing Centre and Regional Remote Sensing Centres. Unauthorised distribution or external deployment is prohibited.
+
 
 ---
 
-<div align="center">
 
-Made with ❤️ for **ISRO — National Remote Sensing Centre (NRSC), Hyderabad**
-
-</div>
