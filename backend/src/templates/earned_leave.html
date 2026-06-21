@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Application for Leave / Extension of Leave — NRSC</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'NotoIndic', 'Noto Sans', Arial, sans-serif; font-size: 10.5pt; color: #000; background: #fff; padding: 8mm; }
+  .page { max-width: 190mm; margin: 0 auto; }
+  .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px; }
+  .header-logos { display: flex; justify-content: center; gap: 20px; margin-bottom: 8px; }
+  .logo-circle { width: 52px; height: 52px; border: 2px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9pt; font-weight: 700; }
+  .org-hi { font-size: 11pt; font-weight: 700; }
+  .org-en { font-size: 12pt; font-weight: 700; letter-spacing: 0.05em; margin: 2px 0; }
+  .dept-en { font-size: 9pt; color: #444; }
+  .form-title { margin-top: 8px; }
+  .form-title-hi { font-size: 11pt; font-weight: 700; }
+  .form-title-en { font-size: 10pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+  td { border: 1px solid #000; padding: 5px 7px; vertical-align: top; }
+  .label-cell { width: 55%; background: #f5f5f5; }
+  .label-hi { font-weight: 600; display: block; }
+  .label-en { font-size: 9pt; color: #333; display: block; }
+  .value-cell { width: 45%; }
+  .value-text { min-height: 18px; }
+  .sig-row { display: flex; justify-content: space-between; margin-top: 20px; }
+  .sig-block { text-align: center; width: 30%; }
+  .sig-line { border-top: 1px solid #000; padding-top: 4px; margin-top: 36px; font-size: 9pt; }
+  .office-box { border: 1px solid #000; padding: 8px; margin-top: 12px; }
+  .office-title { font-weight: 700; text-align: center; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 6px; }
+  .note { font-size: 8.5pt; color: #555; margin-top: 8px; border-top: 1px dashed #999; padding-top: 6px; }
+  @media print { body { padding: 0; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-logos">
+      <div class="logo-circle">ISRO</div>
+      <div class="logo-circle">NRSC</div>
+    </div>
+    <div class="org-hi">राष्ट्रीय सुदूर संवेदन केन्द्र</div>
+    <div class="org-en">NATIONAL REMOTE SENSING CENTRE</div>
+    <div class="dept-en">Department of Space, Government of India, Hyderabad – 500 037</div>
+    <div class="form-title">
+      <div class="form-title-hi">छुट्टी/छुट्टी बढ़ाने के लिए आवेदन</div>
+      <div class="form-title-en">Application for Leave / Extension of Leave</div>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <td class="label-cell"><span class="label-hi">1. आवेदक का नाम</span><span class="label-en">1. Name of the Applicant</span></td>
+      <td class="value-cell"><div class="value-text">{{applicantName}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">2. पदनाम / श्रेणी</span><span class="label-en">2. Designation / Grade</span></td>
+      <td class="value-cell"><div class="value-text">{{designationGrade}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">3. प्रभाग / अनुभाग</span><span class="label-en">3. Division / Section</span></td>
+      <td class="value-cell"><div class="value-text">{{divisionSection}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">4. कर्मचारी कोड</span><span class="label-en">4. Employee Code</span></td>
+      <td class="value-cell"><div class="value-text">{{employeeCode}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">5. मूल वेतन</span><span class="label-en">5. Basic Pay</span></td>
+      <td class="value-cell"><div class="value-text">{{basicPay}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">6. HRA / परिवहन भत्ता</span><span class="label-en">6. HRA / Conveyance Allowance</span></td>
+      <td class="value-cell"><div class="value-text">{{hraConveyanceAllowance}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">7. लागू छुट्टी नियम</span><span class="label-en">7. Leave Rules Applicable</span></td>
+      <td class="value-cell"><div class="value-text">{{leaveRulesApplicable}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">8. छुट्टी का प्रकार</span><span class="label-en">8. Type of Leave</span></td>
+      <td class="value-cell"><div class="value-text">{{leaveType}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">9. छुट्टी के दिनों की संख्या</span><span class="label-en">9. Number of Days</span></td>
+      <td class="value-cell"><div class="value-text">{{numberOfDays}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">10. दिनांक से / तक</span><span class="label-en">10. From Date / To Date</span></td>
+      <td class="value-cell"><div class="value-text">{{fromDate}} — {{toDate}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">11. रविवार/छुट्टियाँ (उपसर्ग/प्रत्यय)</span><span class="label-en">11. Sundays / Holidays (Prefix / Suffix)</span></td>
+      <td class="value-cell"><div class="value-text">{{sundaysHolidaysPrefixSuffix}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">12. छुट्टी का कारण</span><span class="label-en">12. Ground / Reason for Leave</span></td>
+      <td class="value-cell"><div class="value-text">{{groundForLeave}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">13. अंतिम छुट्टी से वापसी की तारीख</span><span class="label-en">13. Date of Return from Last Leave</span></td>
+      <td class="value-cell"><div class="value-text">{{dateOfReturnFromLastLeave}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">14. क्या LTC का प्रस्ताव है?</span><span class="label-en">14. LTC Proposal (Yes / No)</span></td>
+      <td class="value-cell"><div class="value-text">{{ltcProposal}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">15. LTC ब्लॉक वर्ष</span><span class="label-en">15. LTC Block Year</span></td>
+      <td class="value-cell"><div class="value-text">{{ltcBlockYear}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">16. छुट्टी का पता</span><span class="label-en">16. Leave Address</span></td>
+      <td class="value-cell"><div class="value-text">{{leaveAddress}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">17. आवेदन की तारीख</span><span class="label-en">17. Date of Application</span></td>
+      <td class="value-cell"><div class="value-text">{{applicationDate}}</div></td>
+    </tr>
+  </table>
+
+  <div class="sig-row">
+    <div class="sig-block"><div class="sig-line">आवेदक के हस्ताक्षर<br>Signature of Applicant</div></div>
+    <div class="sig-block"><div class="sig-line">पर्यवेक्षक की अनुशंसा<br>Supervisor's Recommendation</div></div>
+    <div class="sig-block"><div class="sig-line">स्वीकृति प्राधिकारी<br>Sanctioning Authority</div></div>
+  </div>
+
+  <div class="office-box">
+    <div class="office-title">कार्यालय उपयोग के लिए / For Office Use Only</div>
+    <table style="border:none;">
+      <tr>
+        <td style="border:none; width:33%;">EL Balance: ___________</td>
+        <td style="border:none; width:33%;">HPL Balance: ___________</td>
+        <td style="border:none; width:33%;">Sanctioned/Refused: ___________</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="note">
+    Note: This form should be submitted in duplicate. One copy is retained by the office and one copy is returned to the applicant duly signed.
+  </div>
+</div>
+<div style="text-align:center;margin-bottom:4px;min-height:52px;">{{employeeSignature}}</div>
+  <!-- Submission Timestamp -->
+  <div style="margin-top:10px;padding:6px 12px;background:#f5f7fa;border-top:1px solid #ccc;font-size:8pt;color:#555;display:flex;justify-content:space-between;">
+    <span>Submitted: {{submittedDate}} &nbsp;&#64;&nbsp; {{submittedTime}}</span>
+    <span style="font-style:italic;color:#888;">Generated by NRSC SLMS</span>
+  </div>
+</body>
+</html>

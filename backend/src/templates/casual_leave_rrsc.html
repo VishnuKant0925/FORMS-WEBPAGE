@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Casual Leave / Special Casual Leave / Compensatory Off — RRSC-W</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'NotoIndic', 'Noto Sans', Arial, sans-serif; font-size: 10.5pt; color: #000; background: #fff; padding: 8mm; }
+  .page { max-width: 190mm; margin: 0 auto; }
+  .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px; }
+  .header-logos { display: flex; justify-content: center; gap: 20px; margin-bottom: 8px; }
+  .logo-circle { width: 52px; height: 52px; border: 2px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9pt; font-weight: 700; }
+  .org-hi { font-size: 11pt; font-weight: 700; }
+  .org-en { font-size: 12pt; font-weight: 700; letter-spacing: 0.05em; margin: 2px 0; }
+  .dept-en { font-size: 9pt; color: #444; }
+  .form-title { margin-top: 8px; }
+  .form-title-hi { font-size: 11pt; font-weight: 700; }
+  .form-title-en { font-size: 10pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* Two-column layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  table { width: 100%; border-collapse: collapse; }
+  td { border: 1px solid #000; padding: 5px 7px; vertical-align: top; }
+  .label-cell { background: #f5f5f5; width: 50%; }
+  .label-hi { font-weight: 600; display: block; font-size: 10pt; }
+  .label-en { font-size: 8.5pt; color: #333; display: block; }
+  .value-cell { width: 50%; }
+  .value-text { min-height: 16px; }
+  .full-row td:last-child { width: 60%; }
+
+  .nature-box { display: flex; gap: 16px; flex-wrap: wrap; }
+  .check-item { display: flex; align-items: center; gap: 4px; }
+  .check-box { width: 14px; height: 14px; border: 1.5px solid #000; display: inline-block; text-align: center; line-height: 14px; font-size: 11pt; }
+
+  .sig-row { display: flex; justify-content: space-between; margin-top: 20px; }
+  .sig-block { text-align: center; width: 45%; }
+  .sig-line { border-top: 1px solid #000; padding-top: 4px; margin-top: 36px; font-size: 9pt; }
+  .office-box { border: 1px solid #000; padding: 8px; margin-top: 12px; }
+  .office-title { font-weight: 700; text-align: center; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 6px; }
+  @media print { body { padding: 0; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-logos">
+      <div class="logo-circle">ISRO</div>
+      <div class="logo-circle">RRSC-W</div>
+    </div>
+    <div class="org-hi">क्षेत्रीय सुदूर संवेदन केन्द्र – पश्चिम (RRSC-W)</div>
+    <div class="org-en">REGIONAL REMOTE SENSING CENTRE – WEST</div>
+    <div class="dept-en">National Remote Sensing Centre | Department of Space, Govt. of India</div>
+    <div class="form-title">
+      <div class="form-title-hi">आकस्मिक छुट्टी / विशेष आकस्मिक छुट्टी / प्रतिपूरक अवकाश हेतु आवेदन</div>
+      <div class="form-title-en">Application for Casual Leave / Special Casual Leave / Compensatory Off</div>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <td class="label-cell"><span class="label-hi">1. कर्मचारी कोड</span><span class="label-en">1. Employee Code</span></td>
+      <td class="value-cell"><div class="value-text">{{employeeCode}}</div></td>
+      <td class="label-cell"><span class="label-hi">2. आवेदक का नाम</span><span class="label-en">2. Name of the Applicant</span></td>
+      <td class="value-cell"><div class="value-text">{{applicantName}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">3. पदनाम / श्रेणी</span><span class="label-en">3. Designation / Grade</span></td>
+      <td class="value-cell"><div class="value-text">{{designationGrade}}</div></td>
+      <td class="label-cell"><span class="label-hi">4. प्रभाग / अनुभाग</span><span class="label-en">4. Division / Section</span></td>
+      <td class="value-cell"><div class="value-text">{{divisionSection}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell" colspan="4">
+        <span class="label-hi">5. छुट्टी की प्रकृति / Nature of Leave</span>
+        <div class="nature-box" style="margin-top: 4px;">
+          <div class="check-item">
+            <div class="check-box">{{clCheck}}</div>
+            <span>Casual Leave (CL)</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box">{{splClCheck}}</div>
+            <span>Special Casual Leave (Spl CL)</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box">{{compOffCheck}}</div>
+            <span>Compensatory Off</span>
+          </div>
+        </div>
+        <div style="margin-top: 4px;"><strong>Selected:</strong> {{natureOfLeave}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">6. दिनों की संख्या</span><span class="label-en">6. No. of Days</span></td>
+      <td class="value-cell"><div class="value-text">{{numberOfDays}}</div></td>
+      <td class="label-cell"><span class="label-hi">7. दिनांक से / तक</span><span class="label-en">7. From / To Date</span></td>
+      <td class="value-cell"><div class="value-text">{{fromDate}} — {{toDate}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">8. उपसर्ग (Prefixing)</span><span class="label-en">8. Prefix Holiday/Sunday</span></td>
+      <td class="value-cell"><div class="value-text">{{prefixing}}</div></td>
+      <td class="label-cell"><span class="label-hi">9. प्रत्यय (Suffixing)</span><span class="label-en">9. Suffix Holiday/Sunday</span></td>
+      <td class="value-cell"><div class="value-text">{{suffixing}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell" colspan="1"><span class="label-hi">10. उद्देश्य / कारण</span><span class="label-en">10. Purpose / Reason</span></td>
+      <td class="value-cell" colspan="3"><div class="value-text">{{purpose}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell" colspan="1"><span class="label-hi">11. छुट्टी के दौरान का पता</span><span class="label-en">11. Address During Leave</span></td>
+      <td class="value-cell" colspan="3"><div class="value-text">{{addressDuringLeave}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">12. बीच की बंद छुट्टियाँ</span><span class="label-en">12. Intervening Closed Holidays</span></td>
+      <td class="value-cell"><div class="value-text">{{interveningClosedHolidays}}</div></td>
+      <td class="label-cell"><span class="label-hi">13. इस वर्ष अब तक CL</span><span class="label-en">13. CL Taken So Far This Year</span></td>
+      <td class="value-cell"><div class="value-text">{{clTakenSoFar}}</div></td>
+    </tr>
+    <tr>
+      <td class="label-cell"><span class="label-hi">14. आवेदन की तारीख</span><span class="label-en">14. Date of Application</span></td>
+      <td class="value-cell" colspan="3"><div class="value-text">{{applicationDate}}</div></td>
+    </tr>
+  </table>
+
+  <div class="sig-row">
+    <div class="sig-block"><div class="sig-line">आवेदक के हस्ताक्षर<br>Signature of Applicant</div></div>
+    <div class="sig-block"><div class="sig-line">अनुशंसा / स्वीकृति<br>Recommendation / Sanction</div></div>
+  </div>
+
+  <div class="office-box">
+    <div class="office-title">कार्यालय उपयोग के लिए / For Office Use Only</div>
+    <span>CL Balance: _____________ &nbsp;&nbsp;&nbsp; Sanctioned / Refused: _____________ &nbsp;&nbsp;&nbsp; Date: _____________</span>
+  </div>
+</div>
+<div style="text-align:center;margin-bottom:4px;min-height:52px;">{{employeeSignature}}</div>
+  <!-- Submission Timestamp -->
+  <div style="margin-top:10px;padding:6px 12px;background:#f5f7fa;border-top:1px solid #ccc;font-size:8pt;color:#555;display:flex;justify-content:space-between;">
+    <span>Submitted: {{submittedDate}} &nbsp;&#64;&nbsp; {{submittedTime}}</span>
+    <span style="font-style:italic;color:#888;">Generated by NRSC SLMS</span>
+  </div>
+</body>
+</html>
