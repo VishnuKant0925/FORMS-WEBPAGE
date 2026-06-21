@@ -84,7 +84,7 @@ export const getHistory = async (req: AuthRequest, res: Response): Promise<void>
 
     const [submissions, total] = await Promise.all([
       Submission.find(filter)
-        .select('formType language status createdAt updatedAt')
+        .select('formType language formData status hrComment supervisorComment createdAt updatedAt')
         .sort({ createdAt: -1 })
         .skip((page - 1) * limit)
         .limit(limit)

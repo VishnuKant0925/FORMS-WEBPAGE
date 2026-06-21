@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { formService } from '@/services/formService';
 import type { Submission, FormType, SubmissionStatus } from '@/types';
 import { format } from 'date-fns';
-import { Download, Edit2, Trash2, Loader2, AlertCircle, FileText, Search, ArrowUpDown, ArrowUp, ArrowDown, X } from 'lucide-react';
+import { Download, Edit2, Trash2, Loader2, AlertCircle, FileText, Search, ArrowUpDown, ArrowUp, ArrowDown, X, Eye } from 'lucide-react';
 import Link from 'next/link';
+import FormViewModal from '@/components/forms/FormViewModal';
 
 export default function SubmissionTable() {
   const [allSubmissions, setAllSubmissions] = useState<Submission[]>([]);
@@ -27,6 +28,7 @@ export default function SubmissionTable() {
   const itemsPerPage = 10;
 
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [viewingSubmission, setViewingSubmission] = useState<Submission | null>(null);
 
   const fetchSubmissions = async () => {
     setLoading(true);
@@ -394,6 +396,13 @@ export default function SubmissionTable() {
                                 <span>Correct</span>
                               </Link>
                               <button
+                                onClick={() => setViewingSubmission(sub)}
+                                className="p-2 text-[#486581] hover:bg-gray-50 rounded"
+                                title="View Submitted Form"
+                              >
+                                <Eye className="w-4 h-4" />
+                              </button>
+                              <button
                                 onClick={() => handleDownloadPdf(sub._id, sub.formType)}
                                 className="p-2 text-[#486581] hover:bg-gray-50 rounded"
                                 disabled={downloadingId === sub._id}
@@ -407,18 +416,28 @@ export default function SubmissionTable() {
                               </button>
                             </>
                           ) : (
-                            <button
-                              onClick={() => handleDownloadPdf(sub._id, sub.formType)}
-                              className="btn btn-outline py-1 px-2.5 text-xs flex items-center gap-1.5"
-                              disabled={downloadingId === sub._id}
-                            >
-                              {downloadingId === sub._id ? (
-                                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0B3C6D]" />
-                              ) : (
-                                <Download className="w-3.5 h-3.5" />
-                              )}
-                              <span>PDF</span>
-                            </button>
+                            <>
+                              <button
+                                onClick={() => setViewingSubmission(sub)}
+                                className="btn btn-outline py-1 px-2.5 text-xs flex items-center gap-1.5"
+                                title="View Submitted Form"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                <span>View</span>
+                              </button>
+                              <button
+                                onClick={() => handleDownloadPdf(sub._id, sub.formType)}
+                                className="btn btn-outline py-1 px-2.5 text-xs flex items-center gap-1.5"
+                                disabled={downloadingId === sub._id}
+                              >
+                                {downloadingId === sub._id ? (
+                                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0B3C6D]" />
+                                ) : (
+                                  <Download className="w-3.5 h-3.5" />
+                                )}
+                                <span>PDF</span>
+                              </button>
+                            </>
                           )}
                         </div>
                       </td>
@@ -453,6 +472,16 @@ export default function SubmissionTable() {
           </div>
         )}
       </div>
+
+      {/* View Form Modal */}
+      {viewingSubmission && (
+        <FormViewModal
+          submission={viewingSubmission}
+          onClose={() => setViewingSubmission(null)}
+          onDownloadPdf={handleDownloadPdf}
+          isDownloading={downloadingId === viewingSubmission._id}
+        />
+      )}
     </div>
   );
 }
