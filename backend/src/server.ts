@@ -8,10 +8,10 @@ import mongoSanitize from 'express-mongo-sanitize';
 import connectDB from './config/db';
 import { globalRateLimiter } from './middleware/rateLimiter';
 import { errorHandler } from './middleware/errorHandler';
-import authRoutes    from './routes/authRoutes';
-import formRoutes    from './routes/formRoutes';
-import pdfRoutes     from './routes/pdfRoutes';
-import adminRoutes   from './routes/adminRoutes';
+import authRoutes from './routes/authRoutes';
+import formRoutes from './routes/formRoutes';
+import pdfRoutes from './routes/pdfRoutes';
+import adminRoutes from './routes/adminRoutes';
 import profileRoutes from './routes/profileRoutes';
 import translitRoutes from './routes/translitRoutes';
 
@@ -40,9 +40,9 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc:  ["'self'"],
-      styleSrc:   ["'self'", "'unsafe-inline'"],
-      imgSrc:     ["'self'", 'data:', 'https:'],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:', 'https:'],
     },
   },
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
@@ -76,15 +76,15 @@ app.use(cors({
     console.warn(`[cors] Blocked origin: ${origin}`);
     callback(null, false);
   },
-  credentials:     true,
-  methods:         ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders:  ['Content-Type', 'Authorization'],
-  exposedHeaders:  ['Content-Disposition'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Disposition'],
 }));
 
 // ─── Body Parsing ─────────────────────────────────────────
-app.use(express.json({ limit: '50kb' }));           // bumped for form data payloads
-app.use(express.urlencoded({ extended: true, limit: '50kb' }));
+app.use(express.json({ limit: '5mb' }));           // bumped for form data payloads
+app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 app.use(cookieParser());
 
 // ─── NoSQL Injection Protection ───────────────────────────
@@ -97,10 +97,10 @@ app.use(compression());
 app.use(globalRateLimiter);
 
 // ─── Routes ───────────────────────────────────────────────
-app.use('/api/auth',    authRoutes);
-app.use('/api/forms',   formRoutes);
-app.use('/api/pdf',     pdfRoutes);
-app.use('/api/admin',   adminRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/forms', formRoutes);
+app.use('/api/pdf', pdfRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/xlit-api-proxy', translitRoutes);
 
