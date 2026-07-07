@@ -117,6 +117,11 @@ body {
 .card-flat {
   box-shadow: none;
 }
+.admin-panel-card:hover {
+  box-shadow: var(--shadow-md) !important;
+  border-color: var(--border-strong) !important;
+  transform: translateY(-2px);
+}
 
 /* ═══════════════════════════════════════════════════════════
    FORM ELEMENTS
