@@ -70,3 +70,11 @@ scratch/
 .turbo
 *.pid
 *.seed
+
+# ========================
+# Python
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
