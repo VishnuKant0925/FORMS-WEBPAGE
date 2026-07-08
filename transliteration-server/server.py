@@ -18,6 +18,11 @@ Usage:
   → Response: { "success": true, "result": ["नमस्ते", ...], "input": "namaste", ... }
 """
 
+import torch
+import argparse
+if hasattr(torch.serialization, 'add_safe_globals'):
+    torch.serialization.add_safe_globals([argparse.Namespace])
+
 from ai4bharat.transliteration import xlit_server
 from flask_cors import CORS
 import sys
