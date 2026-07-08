@@ -21,6 +21,32 @@
 import { IndicTransliterate } from '@ai4bharat/indic-transliterate';
 import { useTranslitStore } from '@/store/useTranslitStore';
 
+/* ─────────────────────────────────────────────────────────────────────
+ * PRE-SEED: The library internally calls xlit-api.ai4bharat.org/languages
+ * to get language direction/font info. That API is offline (DNS dead).
+ * The library checks sessionStorage FIRST and skips the fetch if data
+ * exists. We seed it once so the fetch is never attempted.
+ * ───────────────────────────────────────────────────────────────────── */
+const SUPPORTED_LANGUAGES = [
+  { LangCode: 'hi',  Identifier: 'Hindi',      Direction: 'ltr', GoogleFont: 'Noto Sans Devanagari', FallbackFont: 'sans-serif' },
+  { LangCode: 'bn',  Identifier: 'Bengali',    Direction: 'ltr', GoogleFont: 'Noto Sans Bengali',    FallbackFont: 'sans-serif' },
+  { LangCode: 'gu',  Identifier: 'Gujarati',   Direction: 'ltr', GoogleFont: 'Noto Sans Gujarati',   FallbackFont: 'sans-serif' },
+  { LangCode: 'kn',  Identifier: 'Kannada',    Direction: 'ltr', GoogleFont: 'Noto Sans Kannada',    FallbackFont: 'sans-serif' },
+  { LangCode: 'ml',  Identifier: 'Malayalam',  Direction: 'ltr', GoogleFont: 'Noto Sans Malayalam',  FallbackFont: 'sans-serif' },
+  { LangCode: 'mr',  Identifier: 'Marathi',    Direction: 'ltr', GoogleFont: 'Noto Sans Devanagari', FallbackFont: 'sans-serif' },
+  { LangCode: 'ne',  Identifier: 'Nepali',     Direction: 'ltr', GoogleFont: 'Noto Sans Devanagari', FallbackFont: 'sans-serif' },
+  { LangCode: 'or',  Identifier: 'Odia',       Direction: 'ltr', GoogleFont: 'Noto Sans Oriya',      FallbackFont: 'sans-serif' },
+  { LangCode: 'pa',  Identifier: 'Punjabi',    Direction: 'ltr', GoogleFont: 'Noto Sans Gurmukhi',   FallbackFont: 'sans-serif' },
+  { LangCode: 'sa',  Identifier: 'Sanskrit',   Direction: 'ltr', GoogleFont: 'Noto Sans Devanagari', FallbackFont: 'sans-serif' },
+  { LangCode: 'si',  Identifier: 'Sinhala',    Direction: 'ltr', GoogleFont: 'Noto Sans Sinhala',    FallbackFont: 'sans-serif' },
+  { LangCode: 'ta',  Identifier: 'Tamil',      Direction: 'ltr', GoogleFont: 'Noto Sans Tamil',      FallbackFont: 'sans-serif' },
+  { LangCode: 'te',  Identifier: 'Telugu',     Direction: 'ltr', GoogleFont: 'Noto Sans Telugu',     FallbackFont: 'sans-serif' },
+  { LangCode: 'ur',  Identifier: 'Urdu',       Direction: 'rtl', GoogleFont: 'Noto Nastaliq Urdu',   FallbackFont: 'sans-serif' },
+];
+if (typeof window !== 'undefined' && !sessionStorage.getItem('indic_transliterate__supported_languages')) {
+  sessionStorage.setItem('indic_transliterate__supported_languages', JSON.stringify(SUPPORTED_LANGUAGES));
+}
+
 interface TransliterateFieldProps {
   fieldNumber?:    string;
   labelHindi:      string;
