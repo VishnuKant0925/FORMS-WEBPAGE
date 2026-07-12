@@ -4,6 +4,7 @@ import fs from 'fs';
 import puppeteer, { type Browser } from 'puppeteer';
 import Submission from '../models/Submission';
 import { AuthRequest } from '../middleware/auth';
+import { fillDocxAndConvertToPdf } from '../utils/docxUtils';
 
 // ─── Allowed form field names (ReDoS prevention allowlist) ─
 const ALLOWED_FORM_FIELDS = new Set([
@@ -127,7 +128,25 @@ export const generatePdf = async (req: AuthRequest, res: Response): Promise<void
       return;
     }
 
-    // Load HTML template
+    // If this is the casual_leave_rrsc form, use the DOCX templating route for pinpoint accuracy
+    if (submission.formType === 'casual_leave_rrsc') {
+      const pdfBuffer = await fillDocxAndConvertToPdf(submission.formType, submission.formData as Record<string, unknown>);
+      
+      const employeeCode = String((submission.formData as Record<string, unknown>).employeeCode ?? 'unknown').replace(/[^a-zA-Z0-9-]/g, '');
+      const timestamp    = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      const filename     = `NRSC_${submission.formType}_${employeeCode}_${timestamp}.pdf`;
+
+      res.set({
+        'Content-Type':        'application/pdf',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Length':      String(pdfBuffer.length),
+        'Cache-Control':       'no-store',
+      });
+      res.end(pdfBuffer);
+      return;
+    }
+
+    // Load HTML template for other forms
     const templatePath = path.join(__dirname, '..', 'templates', `${submission.formType}.html`);
     if (!fs.existsSync(templatePath)) {
       res.status(500).json({ error: `PDF template not yet available for: ${submission.formType}` });

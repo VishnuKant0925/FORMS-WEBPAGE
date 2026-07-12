@@ -78,3 +78,21 @@ __pycache__/
 *.py[cod]
 *$py.class
 venv/
+
+# ========================
+# Generated Documents
+# ========================
+*.pdf
+!frontend/public/*.pdf
+!backend/src/docx_templates/*.pdf
+
+# ========================
+# Debug / Temp Scripts
+# ========================
+debug.ts
+debug.js
+test_*.ts
+test_*.js
+*.ps1
+temp_*.docx
+temp_*.pdf
