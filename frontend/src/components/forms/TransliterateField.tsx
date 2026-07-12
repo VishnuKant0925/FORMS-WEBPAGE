@@ -18,8 +18,13 @@
  *  - NEVER store Roman intermediary text
  */
 
-import { IndicTransliterate } from '@ai4bharat/indic-transliterate';
+import dynamic from 'next/dynamic';
 import { useTranslitStore } from '@/store/useTranslitStore';
+
+const IndicTransliterate = dynamic(
+  () => import('@ai4bharat/indic-transliterate').then((mod) => mod.IndicTransliterate),
+  { ssr: false }
+);
 
 /* ─────────────────────────────────────────────────────────────────────
  * PRE-SEED: The library internally calls xlit-api.ai4bharat.org/languages
