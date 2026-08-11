@@ -14,10 +14,16 @@ First Run:
 Usage:
   python server.py
   → Server starts on http://localhost:8000
-  → API: GET http://localhost:8000/tl/hi/namaste
-  → Response: { "success": true, "result": ["नमस्ते", ...], "input": "namaste", ... }
+
+  Environment variables (optional):
+    XLIT_PORT  — port to run on (default: 8000)
+    XLIT_HOST  — host to bind to (default: 0.0.0.0)
+
+  API: GET http://localhost:8000/tl/hi/namaste
+  Response: { "success": true, "result": ["नमस्ते", ...], "input": "namaste", ... }
 """
 
+import os
 import torch
 import argparse
 if hasattr(torch.serialization, 'add_safe_globals'):
@@ -28,6 +34,9 @@ from flask_cors import CORS
 import sys
 
 def start_server():
+    host = os.environ.get('XLIT_HOST', '0.0.0.0')
+    port = int(os.environ.get('XLIT_PORT', '8000'))
+
     print("=" * 60)
     print("  AI4Bharat IndicXlit — Local Server")
     print("=" * 60)
@@ -55,13 +64,14 @@ def start_server():
 
     print()
     print("✅ Server ready!")
-    print("   → http://localhost:8000")
-    print("   → Test: http://localhost:8000/tl/hi/namaste")
-    print("   → Languages: http://localhost:8000/languages")
+    print(f"   → http://localhost:{port}")
+    print(f"   → Test: http://localhost:{port}/tl/hi/namaste")
+    print(f"   → Languages: http://localhost:{port}/languages")
     print()
 
-    # Run on port 8000 — Node.js backend will proxy requests here
-    app.run(host='0.0.0.0', port=8000, debug=False)
+    # Run on configured host/port — Node.js backend will proxy requests here
+    app.run(host=host, port=port, debug=False)
 
 if __name__ == '__main__':
     start_server()
+

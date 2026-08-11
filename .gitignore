@@ -78,6 +78,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 venv/
+dicts.zip
 
 # ========================
 # Generated Documents

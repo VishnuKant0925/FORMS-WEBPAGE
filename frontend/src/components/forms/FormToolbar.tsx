@@ -90,7 +90,7 @@ export default function FormToolbar({ saveStatus, lastSaved, onSave, isSaving }:
           value={lang}
           onChange={e => setLang(e.target.value as TranslitCode)}
           className="form-input"
-          style={{ padding: '5px 28px 5px 10px', fontSize: '0.8rem', maxWidth: '175px', height: 'auto' }}
+          style={{ padding: '5px 28px 5px 10px', fontSize: '0.8rem', maxWidth: '210px', height: 'auto' }}
           aria-label="Transliteration script language"
         >
           {TRANSLIT_LANGUAGES.map(l => (

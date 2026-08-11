@@ -44,12 +44,12 @@
 
 ## 🔍 Overview
 
- SFMS digitises the paper-based leave and biodata forms used across government organisations. Employees fill forms in their preferred Indian language (with live Indic transliteration support for 10 languages), HR/Admin review and approve submissions through a role-based workflow, and the system generates print-ready PDFs with embedded Google Noto Indic fonts.
+ SFMS digitises the paper-based leave and biodata forms used across government organisations. Employees fill forms in their preferred Indian language (with live Indic transliteration support for 21 languages), HR/Admin review and approve submissions through a role-based workflow, and the system generates print-ready PDFs with embedded Google Noto Indic fonts.
 
 ### Key Highlights
 
 - 🌐 **Bilingual UI** — Hindi (default) + English interface with real-time language switching
-- 🔤 **10-Language Transliteration** — Type in English phonetics, get output in Hindi, Marathi, Bengali, Tamil, Telugu, Gujarati, Kannada, Malayalam, Punjabi, or Odia
+- 🔤 **21-Language Transliteration** — Type in English phonetics, get output in any of 21 Indian languages including Hindi, Tamil, Telugu, Bengali, Marathi, Gujarati, Kannada, Malayalam, Punjabi, Odia, Urdu, Assamese, and more
 - 📄 **Pixel-Perfect PDFs** — Puppeteer + Google Noto fonts generate A4 PDFs identical to the original government forms
 - 🔒 **Enterprise Security** — Argon2id hashing, JWT rotation, rate limiting, NoSQL injection protection
 - 👥 **4-Tier Role System** — Employee → Supervisor → HR → Admin with granular access control
@@ -61,14 +61,14 @@
 | Category | Highlights |
 |----------|------------|
 | **Authentication** | Email/password (Argon2id) + Google OAuth, JWT rotation, httpOnly cookies |
-| **Forms** | 4 bilingual forms with live Indic transliteration (10 languages) |
+| **Forms** | 4 bilingual forms with live Indic transliteration (21 languages) |
 | **PDF Generation** | Puppeteer + Google Noto fonts — pixel-perfect A4 PDFs |
 | **Workflow** | Draft → Submit → HR Review (Approve / Reject / Return) |
 | **Dashboard** | Real-time stats, submission history, pagination |
 | **Analytics** | Monthly trends, status breakdown, form-type breakdown (Admin) |
 | **Role-Based Access** | Employee · Supervisor · HR · Admin |
 | **Security** | Helmet, CORS, rate limiting, NoSQL injection protection, Zod validation |
-| **Bilingual** | Hindi (default) + English UI, 10-language transliteration |
+| **Bilingual** | Hindi (default) + English UI, 21-language transliteration |
 
 ---
 
@@ -503,6 +503,13 @@ nrsc-slms/
 │   ├── tailwind.config.ts             # Tailwind CSS configuration
 │   └── package.json
 │
+├── transliteration-server/
+│   ├── server.py                      # Flask transliteration API (port 8000)
+│   ├── download_dicts.py              # Word probability dictionary downloader
+│   ├── fairseq/                       # Facebook AI Research Sequence-to-Sequence (git submodule)
+│   ├── venv/                          # Python virtual environment (not tracked)
+│   └── README.md                      # Transliteration server setup guide
+│
 ├── .gitignore
 └── README.md
 ```
@@ -748,7 +755,67 @@ You should see:
 
 ---
 
-### Step 5 — Open in Browser
+### Step 5 — Transliteration Server (Optional but Recommended)
+
+The transliteration server provides **offline, local** transliteration for 21 Indian languages. Without it, the backend will fall back to external APIs.
+
+Open a **new terminal** window:
+
+```bash
+cd transliteration-server
+```
+
+<details>
+<summary><strong>🪟 Windows</strong></summary>
+
+```cmd
+python -m venv venv
+venv\Scripts\activate
+pip install --force pip==24.0
+pip install numpy editdistance
+cd fairseq && pip install --editable ./ && cd ..
+pip install ai4bharat-transliteration flask-cors requests
+```
+
+</details>
+
+<details>
+<summary><strong>🍎 macOS / 🐧 Linux</strong></summary>
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install ai4bharat-transliteration flask-cors requests
+```
+
+</details>
+
+#### Download dictionaries (first time only)
+
+```bash
+python download_dicts.py
+```
+
+#### Start the server
+
+```bash
+python server.py
+```
+
+> **⚠️ First Run:** The first time you run `server.py`, it downloads AI model weights (~2-3 GB). An internet connection is required for the first run only.
+
+You can configure the port via environment variables:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `XLIT_PORT` | `8000` | Port to run the transliteration server on |
+| `XLIT_HOST` | `0.0.0.0` | Host to bind to |
+
+> For details, see [`transliteration-server/README.md`](transliteration-server/README.md).
+
+---
+
+### Step 6 — Open in Browser
 
 Navigate to **http://localhost:3000** and log in with one of the [default accounts](#-default-accounts).
 
@@ -758,10 +825,11 @@ Navigate to **http://localhost:3000** and log in with one of the [default accoun
 > | MongoDB | `mongodb://127.0.0.1:27017` | Terminal 1 |
 > | Backend API | `http://localhost:5000` | Terminal 2 |
 > | Frontend App | `http://localhost:3000` | Terminal 3 |
+> | Transliteration Server | `http://localhost:8000` | Terminal 4 (optional) |
 
 ---
 
-### Step 6 — Install Puppeteer Chromium (If PDF Fails)
+### Step 7 — Install Puppeteer Chromium (If PDF Fails)
 
 If PDF generation fails, install Chromium for Puppeteer:
 
@@ -787,6 +855,7 @@ npx puppeteer browsers install chrome
 | `JWT_REFRESH_EXPIRY` | No | `7d` | Refresh token expiry duration |
 | `GOOGLE_CLIENT_ID` | No | — | Google OAuth Client ID (leave empty to disable) |
 | `CLIENT_URL` | **Yes** | — | Comma-separated frontend origins for CORS |
+| `LOCAL_XLIT_URL` | No | `http://localhost:8000` | URL of the local transliteration server |
 
 ### `frontend/.env.local`
 
@@ -794,6 +863,13 @@ npx puppeteer browsers install chrome
 |----------|----------|---------|-------------|
 | `NEXT_PUBLIC_API_URL` | **Yes** | — | Backend API base URL (e.g., `http://localhost:5000/api`) |
 | `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | No | — | Google OAuth Client ID (leave empty to hide Google login button) |
+
+### Transliteration Server (Environment Variables)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `XLIT_PORT` | No | `8000` | Port for the transliteration server |
+| `XLIT_HOST` | No | `0.0.0.0` | Host to bind to |
 
 ---
 
@@ -884,18 +960,31 @@ All forms support **live Indic transliteration** while typing in English phoneti
 
 ## 🌐 Supported Languages (Transliteration)
 
-| Language | Script | Example Input → Output |
-|----------|--------|------------------------|
-| Hindi | Devanagari | `namaste` → `नमस्ते` |
-| Marathi | Devanagari | `namaskar` → `नमस्कार` |
-| Bengali | Bengali | `namaskar` → `নমস্কার` |
-| Gujarati | Gujarati | `namaste` → `નમસ્તે` |
-| Tamil | Tamil | `vanakkam` → `வணக்கம்` |
-| Telugu | Telugu | `namaskaram` → `నమస్కారం` |
-| Kannada | Kannada | `namaskara` → `ನಮಸ್ಕಾರ` |
-| Malayalam | Malayalam | `namasthe` → `നമസ്തേ` |
-| Punjabi | Gurmukhi | `sat sri akal` → `ਸਤ ਸ੍ਰੀ ਅਕਾਲ` |
-| Odia | Odia | `namaskar` → `ନମସ୍କାର` |
+Powered by **AI4Bharat IndicXlit** — 21 Indian languages supported:
+
+| Language | Code | Script | Example Input → Output |
+|----------|------|--------|------------------------|
+| Assamese | `as` | Bengali | `namaskar` → `নমস্কাৰ` |
+| Bengali | `bn` | Bengali | `namaskar` → `নমস্কার` |
+| Bodo | `brx` | Devanagari | `namaskar` → `नमस्कार` |
+| Gujarati | `gu` | Gujarati | `namaste` → `નમસ્તે` |
+| Hindi | `hi` | Devanagari | `namaste` → `नमस्ते` |
+| Kannada | `kn` | Kannada | `namaskara` → `ನಮಸ್ಕಾರ` |
+| Kashmiri | `ks` | Devanagari | `namaskar` → `नमस्कार` |
+| Konkani | `gom` | Devanagari | `namaskar` → `नमस्कार` |
+| Maithili | `mai` | Devanagari | `pranam` → `प्रणाम` |
+| Malayalam | `ml` | Malayalam | `namasthe` → `നമസ്തേ` |
+| Manipuri | `mni` | Bengali | `namaskar` → `নমস্কাৰ` |
+| Marathi | `mr` | Devanagari | `namaskar` → `नमस्कार` |
+| Nepali | `ne` | Devanagari | `namaste` → `नमस्ते` |
+| Odia | `or` | Odia | `namaskar` → `ନମସ୍କାର` |
+| Punjabi | `pa` | Gurmukhi | `sat sri akal` → `ਸਤ ਸ੍ਰੀ ਅਕਾਲ` |
+| Sanskrit | `sa` | Devanagari | `namaste` → `नमस्ते` |
+| Sindhi | `sd` | Arabic | `salam` → `سلام` |
+| Sinhala | `si` | Sinhala | `ayubowan` → `ආයුබෝවන්` |
+| Tamil | `ta` | Tamil | `vanakkam` → `வணக்கம்` |
+| Telugu | `te` | Telugu | `namaskaram` → `నమస్కారం` |
+| Urdu | `ur` | Arabic | `adab` → `آداب` |
 
 ---
 

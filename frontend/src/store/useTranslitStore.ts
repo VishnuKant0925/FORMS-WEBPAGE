@@ -11,17 +11,29 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export const TRANSLIT_LANGUAGES = [
-  { code: 'hi', label: 'Hindi',     native: 'हिन्दी',   script: 'Devanagari' },
-  { code: 'mr', label: 'Marathi',   native: 'मराठी',    script: 'Devanagari' },
-  { code: 'bn', label: 'Bengali',   native: 'বাংলা',    script: 'Bengali'    },
-  { code: 'gu', label: 'Gujarati',  native: 'ગુજરાતી',  script: 'Gujarati'   },
-  { code: 'ta', label: 'Tamil',     native: 'தமிழ்',    script: 'Tamil'      },
-  { code: 'te', label: 'Telugu',    native: 'తెలుగు',   script: 'Telugu'     },
-  { code: 'kn', label: 'Kannada',   native: 'ಕನ್ನಡ',    script: 'Kannada'    },
-  { code: 'ml', label: 'Malayalam', native: 'മലയാളം',   script: 'Malayalam'  },
-  { code: 'pa', label: 'Punjabi',   native: 'ਪੰਜਾਬੀ',   script: 'Gurmukhi'  },
-  { code: 'or', label: 'Odia',      native: 'ଓଡ଼ିଆ',    script: 'Odia'       },
+  { code: 'as',  label: 'Assamese',   native: 'অসমীয়া',    script: 'Bengali'    },
+  { code: 'bn',  label: 'Bengali',    native: 'বাংলা',      script: 'Bengali'    },
+  { code: 'brx', label: 'Bodo',       native: 'बड़ो',       script: 'Devanagari' },
+  { code: 'gu',  label: 'Gujarati',   native: 'ગુજરાતી',    script: 'Gujarati'   },
+  { code: 'hi',  label: 'Hindi',      native: 'हिन्दी',     script: 'Devanagari' },
+  { code: 'kn',  label: 'Kannada',    native: 'ಕನ್ನಡ',      script: 'Kannada'    },
+  { code: 'ks',  label: 'Kashmiri',   native: 'कॉशुर',      script: 'Devanagari' },
+  { code: 'gom', label: 'Konkani',    native: 'कोंकणी',     script: 'Devanagari' },
+  { code: 'mai', label: 'Maithili',   native: 'मैथिली',     script: 'Devanagari' },
+  { code: 'ml',  label: 'Malayalam',  native: 'മലയാളം',     script: 'Malayalam'  },
+  { code: 'mni', label: 'Manipuri',   native: 'মৈতৈলোন্',    script: 'Bengali'    },
+  { code: 'mr',  label: 'Marathi',    native: 'मराठी',      script: 'Devanagari' },
+  { code: 'ne',  label: 'Nepali',     native: 'नेपाली',     script: 'Devanagari' },
+  { code: 'or',  label: 'Odia',       native: 'ଓଡ଼ିଆ',      script: 'Odia'       },
+  { code: 'pa',  label: 'Punjabi',    native: 'ਪੰਜਾਬੀ',     script: 'Gurmukhi'   },
+  { code: 'sa',  label: 'Sanskrit',   native: 'संस्कृतम्',   script: 'Devanagari' },
+  { code: 'sd',  label: 'Sindhi',     native: 'سنڌي',       script: 'Arabic'     },
+  { code: 'si',  label: 'Sinhala',    native: 'සිංහල',      script: 'Sinhala'    },
+  { code: 'ta',  label: 'Tamil',      native: 'தமிழ்',      script: 'Tamil'      },
+  { code: 'te',  label: 'Telugu',     native: 'తెలుగు',     script: 'Telugu'     },
+  { code: 'ur',  label: 'Urdu',       native: 'اردو',       script: 'Arabic'     },
 ] as const;
+
 
 export type TranslitCode = typeof TRANSLIT_LANGUAGES[number]['code'];
 
